@@ -1,55 +1,41 @@
-"use strict";
+'use strict'
+require('./check-versions')()
 
-const browserify = require("browserify");
-const Slash = require("slashjs");
-const minifyHTML = require("html-minifier").minify;
+process.env.NODE_ENV = 'production'
 
-const fs = require("fs");
-const path = require("path");
+const ora = require('ora')
+const rm = require('rimraf')
+const path = require('path')
+const chalk = require('chalk')
+const webpack = require('webpack')
+const config = require('../config')
+const webpackConfig = require('./webpack.prod.conf')
 
-const util = require("./util.js");
-const bundler = browserify("./js/scripts.js");
+const spinner = ora('building for production...')
+spinner.start()
 
-const cwd = process.cwd();
+rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+  if (err) throw err
+  webpack(webpackConfig, function (err, stats) {
+    spinner.stop()
+    if (err) throw err
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }) + '\n\n')
 
-let jsHash = "min";
-let cssHash = "min";
+    if (stats.hasErrors()) {
+      console.log(chalk.red('  Build failed with errors.\n'))
+      process.exit(1)
+    }
 
-// Empty `dist` Directory
-util.empty(path.join(cwd, "dist"))
-
-// Build JS
-const tmpJSPath = path.join(cwd, "dist", "js", `build.min.js`);
-bundler
-  .transform("moonify")
-  .transform("bubleify", {
-    extensions: [".js", ".moon"]
+    console.log(chalk.cyan('  Build complete.\n'))
+    console.log(chalk.yellow(
+      '  Tip: built files are meant to be served over an HTTP server.\n' +
+      '  Opening index.html over file:// won\'t work.\n'
+    ))
   })
-  .transform("uglifyify")
-  .plugin("moonify/plugins/extract-css.js")
-  .bundle()
-  .pipe(fs.createWriteStream(tmpJSPath));
-
-// Build CSS
-bundler.on("bundle", function(bs) {
-  bs.on("end", function() {
-    jsHash = Slash(fs.readFileSync(tmpJSPath).toString()).toLowerCase();
-    fs.renameSync(tmpJSPath, path.join(cwd, "dist", "js", `build.${jsHash}.js`));
-    cssHash = require("./bundle-css.js");
-    buildHTML();
-  });
-});
-
-// Build HTML
-const buildHTML = function() {
-  let minifiedHTML = minifyHTML(fs.readFileSync(path.join(cwd, "index.html")).toString(), {
-    caseSensitive: true,
-    keepClosingSlash: true,
-    removeAttributeQuotes: false,
-    collapseWhitespace: true
-  });
-
-  minifiedHTML = minifiedHTML.replace(/<link\s+([^>]*?\s+)?href="(\.?\/dist\/([^".]*)\.([^".]*)\.([^".]*))"/gi, `<link $1href="./$3.${cssHash}.$5"`).replace(/<script\s+([^>]*?\s+)?src="(\.?\/dist\/([^".]*)\.([^".]*)\.([^".]*))"/gi, `<script $1src="./$3.${jsHash}.$5"`);
-
-  fs.writeFileSync(path.join(cwd, "dist", "index.html"), minifiedHTML);
-}
+})

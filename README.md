@@ -1,22 +1,30 @@
 # js-talks-front
 
-A Moon App
+> Front-End side of JS-Talks App
 
-### File Structure
+## Build Setup
 
-- The main HTML page is located in `index.html`
-- Styles are in `css/styles.css`
-- All javascript code is in `js/scripts.js`
+``` bash
+# install dependencies
+npm install
 
-### Running
+# serve with hot reload at localhost:8080
+npm run dev
 
-```sh
-# Install dependencies
-$ npm install
+# build for production with minification
+npm run build
 
-# Run Dev Server
-$ npm run dev
+# build for production and view the bundle analyzer report
+npm run build --report
 
-# Build for Production
-$ npm run build
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
