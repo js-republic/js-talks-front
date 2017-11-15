@@ -1,6 +1,8 @@
-# js-talks-front
+# JS-Talks Front-End
 
 > Front-End side of JS-Talks App
+
+Prototype : https://xd.adobe.com/view/b7de9481-a4be-4bd5-b87e-5228c9ab2b38/
 
 ## Build Setup
 
