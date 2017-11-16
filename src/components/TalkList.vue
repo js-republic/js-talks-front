@@ -36,8 +36,4 @@ export default {
 }
 </script>
 
-
-<style lang="scss">
-md-table {
-}
-</style>
+<style lang="scss"></style>
