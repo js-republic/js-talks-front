@@ -1,43 +1,83 @@
 <template>
-<md-table class="talk-table" md-sort="likes">
-  <md-table-header>
-    <md-table-row>
-      <md-table-head md-sort-by="title">Titre</md-table-head>
-      <md-table-head md-sort-by="Auteur">Auteur</md-table-head>
-      <md-table-head md-sort-by="likes" md-numeric >Likes</md-table-head>
-      <md-table-head md-sort-by="type">Type</md-table-head>
-      <md-table-head md-sort-by="speaker">Speaker</md-table-head>
-      <md-table-head md-sort-by="description">Description</md-table-head>
-      <md-table-head md-sort-by="lenght">Longueur</md-table-head>
-      <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
-      <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
-    </md-table-row>
-  </md-table-header>
+  <md-table v-model="talks" md-card>
+    <md-table-toolbar>
+      <h1 class="md-title">Talks</h1>
+    </md-table-toolbar>
 
-  <md-table-body>
-    <md-table-row v-for="(row, index) in 5" :key="index">
-      <md-table-cell>My title</md-table-cell>
-      <md-table-cell>Mathieu</md-table-cell>
-      <md-table-cell>{{index}}</md-table-cell>
-      <md-table-cell>Proposition</md-table-cell>
-      <md-table-cell>Mathieu</md-table-cell>
-      <md-table-cell>Une super prez</md-table-cell>
-      <md-table-cell>180min</md-table-cell>
-      <md-table-cell>12/12/2012</md-table-cell>
-      <md-table-cell>https://www.youtube.com/watch?v=hbcEYBQ4x70</md-table-cell>
+    <md-table-row slot="md-table-row" slot-scope="{ item }">
+      <md-table-cell md-label="Titre" md-sort-by="title">{{ item.title }}</md-table-cell>
+      <md-table-cell md-label="Auteur" md-sort-by="author">{{ item.author }}</md-table-cell>
+      <md-table-cell md-label="Likes" md-sort-by="likes" md-numeric>{{ item.likes }}</md-table-cell>
+      <md-table-cell md-label="Type" md-sort-by="type">{{ item.type }}</md-table-cell>
+      <md-table-cell md-label="Speaker" md-sort-by="speaker">{{ item.speaker }}</md-table-cell>
+      <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}
+      </md-table-cell>
+      <md-table-cell md-label="Longueur" md-sort-by="length">{{ item.length }}</md-table-cell>
+      <md-table-cell md-label="Programmé le" md-sort-by="scheduledAt">{{ item.scheduledAt }}
+      </md-table-cell>
+      <md-table-cell md-label="Support/vidéo" md-sort-by="supportAndVideo">{{ item.supportAndVideo
+        }}
+      </md-table-cell>
     </md-table-row>
-  </md-table-body>
-</md-table>
+  </md-table>
 </template>
 
 <script>
-export default {
-  name: 'TalkList'
-}
+  export default {
+    name: 'TalkList',
+    data: () => ({
+      talks: [
+        {
+          title: 'Titre',
+          author: 'Auteur',
+          likes: 'Likes',
+          type: 'Type',
+          speaker: 'Speaker',
+          description: 'Description',
+          length: 'Longueur',
+          scheduledAt: 'Programmé le',
+          supportAndVideo: 'Support/vidéo'
+        },
+        {
+          title: 'Titre',
+          author: 'Auteur',
+          likes: 'Likes',
+          type: 'Type',
+          speaker: 'Speaker',
+          description: 'Description',
+          length: 'Longueur',
+          scheduledAt: 'Programmé le',
+          supportAndVideo: 'Support/vidéo'
+        },
+        {
+          title: 'Titre',
+          author: 'Auteur',
+          likes: 'Likes',
+          type: 'Type',
+          speaker: 'Speaker',
+          description: 'Description',
+          length: 'Longueur',
+          scheduledAt: 'Programmé le',
+          supportAndVideo: 'Support/vidéo'
+        },
+        {
+          title: 'Titre',
+          author: 'Auteur',
+          likes: 'Likes',
+          type: 'Type',
+          speaker: 'Speaker',
+          description: 'Description',
+          length: 'Longueur',
+          scheduledAt: 'Programmé le',
+          supportAndVideo: 'Support/vidéo'
+        }
+      ]
+    })
+  }
 </script>
 
 
 <style lang="scss">
-md-table {
-}
+  md-table {
+  }
 </style>
