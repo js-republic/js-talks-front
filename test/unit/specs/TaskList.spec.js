@@ -1,13 +1,28 @@
-import Vue from 'vue'
-import TaskList from '@/components/TalkList'
+import { mount } from 'vue-test-utils'
+import TalkList from '@/components/TalkList'
+import store from '@/store'
 
-Vue.config.ignoredElements = ['md-table', 'md-table-head', 'md-table-header', 'md-table-body', 'md-table-row', 'md-table-cell']
+let wrapper
 
-describe('TaskList.vue', () => {
+describe('TalkList', () => {
+  beforeEach(() => {
+    wrapper = mount(TalkList)
+  })
+
+  it('should be a Vue instance', () => {
+    expect(wrapper.isVueInstance()).toBeTruthy()
+  })
+
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(TaskList)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('md-table md-table-head:first-child').textContent)
-    .toEqual('Titre')
+    const fistHeadValue = wrapper.find('md-table md-table-head:first-child')
+
+    expect(fistHeadValue.text()).toBe('Titre')
+  })
+
+  it('should render correct first data cells', () => {
+    const firstCellData = store.state.jsTalkData[0]
+    const firstCellBody = wrapper.find('md-table md-table-row:first-child md-table-cell:first-child')
+
+    expect(firstCellBody.text()).toBe(firstCellData.title)
   })
 })
