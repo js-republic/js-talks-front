@@ -6,6 +6,10 @@
           <md-icon>add</md-icon>
         </md-button>
         <span class="md-title">JS-Talks</span>
+        <md-button>
+          <md-icon>apps</md-icon>
+        </md-button>
+        <app-menu></app-menu>
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
@@ -32,11 +36,13 @@
 
 <script>
 import TalkForm from './components/TalkForm'
+import AppMenu from './components/AppMenu'
 
 export default {
   name: 'app',
   components: {
-    TalkForm
+    TalkForm,
+    AppMenu,
   },
   data: () => ({
     menuVisible: false
