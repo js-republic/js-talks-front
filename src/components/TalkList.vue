@@ -27,6 +27,7 @@
         <md-table-cell>{{jsTalk.supportAndVideo}}</md-table-cell>
       </md-table-row>
     </md-table-body>
+
   </md-table>
 </template>
 
