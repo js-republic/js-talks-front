@@ -1,83 +1,46 @@
 <template>
-  <md-table v-model="talks" md-card>
-    <md-table-toolbar>
-      <h1 class="md-title">Talks</h1>
-    </md-table-toolbar>
+  <md-table class="talk-table" md-sort="likes">
+    <md-table-header>
+      <md-table-row>
+        <md-table-head md-sort-by="title">Titre</md-table-head>
+        <md-table-head md-sort-by="auteur">Auteur</md-table-head>
+        <md-table-head md-sort-by="likes" md-numeric >Likes</md-table-head>
+        <md-table-head md-sort-by="type">Type</md-table-head>
+        <md-table-head md-sort-by="speaker">Speaker</md-table-head>
+        <md-table-head md-sort-by="description">Description</md-table-head>
+        <md-table-head md-sort-by="lenght">Longueur</md-table-head>
+        <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
+        <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
+      </md-table-row>
+    </md-table-header>
 
-    <md-table-row slot="md-table-row" slot-scope="{ item }">
-      <md-table-cell md-label="Titre" md-sort-by="title">{{ item.title }}</md-table-cell>
-      <md-table-cell md-label="Auteur" md-sort-by="author">{{ item.author }}</md-table-cell>
-      <md-table-cell md-label="Likes" md-sort-by="likes" md-numeric>{{ item.likes }}</md-table-cell>
-      <md-table-cell md-label="Type" md-sort-by="type">{{ item.type }}</md-table-cell>
-      <md-table-cell md-label="Speaker" md-sort-by="speaker">{{ item.speaker }}</md-table-cell>
-      <md-table-cell md-label="Description" md-sort-by="description">{{ item.description }}
-      </md-table-cell>
-      <md-table-cell md-label="Longueur" md-sort-by="length">{{ item.length }}</md-table-cell>
-      <md-table-cell md-label="Programmé le" md-sort-by="scheduledAt">{{ item.scheduledAt }}
-      </md-table-cell>
-      <md-table-cell md-label="Support/vidéo" md-sort-by="supportAndVideo">{{ item.supportAndVideo
-        }}
-      </md-table-cell>
-    </md-table-row>
+    <md-table-body>
+      <md-table-row v-for="(jsTalk, index) in JS_TALK_DATA" :key="index">
+        <md-table-cell>{{jsTalk.title}}</md-table-cell>
+        <md-table-cell>{{jsTalk.auteur}}</md-table-cell>
+        <md-table-cell>{{jsTalk.likes}}</md-table-cell>
+        <md-table-cell>{{jsTalk.type}}</md-table-cell>
+        <md-table-cell>{{jsTalk.speaker}}</md-table-cell>
+        <md-table-cell>{{jsTalk.description}}</md-table-cell>
+        <md-table-cell>{{jsTalk.lenght}}</md-table-cell>
+        <md-table-cell>{{jsTalk.scheduledAt}}</md-table-cell>
+        <md-table-cell>{{jsTalk.supportAndVideo}}</md-table-cell>
+      </md-table-row>
+    </md-table-body>
+
   </md-table>
 </template>
 
 <script>
-  export default {
-    name: 'TalkList',
-    data: () => ({
-      talks: [
-        {
-          title: 'Titre',
-          author: 'Auteur',
-          likes: 'Likes',
-          type: 'Type',
-          speaker: 'Speaker',
-          description: 'Description',
-          length: 'Longueur',
-          scheduledAt: 'Programmé le',
-          supportAndVideo: 'Support/vidéo'
-        },
-        {
-          title: 'Titre',
-          author: 'Auteur',
-          likes: 'Likes',
-          type: 'Type',
-          speaker: 'Speaker',
-          description: 'Description',
-          length: 'Longueur',
-          scheduledAt: 'Programmé le',
-          supportAndVideo: 'Support/vidéo'
-        },
-        {
-          title: 'Titre',
-          author: 'Auteur',
-          likes: 'Likes',
-          type: 'Type',
-          speaker: 'Speaker',
-          description: 'Description',
-          length: 'Longueur',
-          scheduledAt: 'Programmé le',
-          supportAndVideo: 'Support/vidéo'
-        },
-        {
-          title: 'Titre',
-          author: 'Auteur',
-          likes: 'Likes',
-          type: 'Type',
-          speaker: 'Speaker',
-          description: 'Description',
-          length: 'Longueur',
-          scheduledAt: 'Programmé le',
-          supportAndVideo: 'Support/vidéo'
-        }
-      ]
-    })
+import { JS_TALK_DATA } from '../store/types'
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'TalkList',
+  computed: {
+    ...mapGetters([JS_TALK_DATA])
   }
+}
 </script>
 
-
-<style lang="scss">
-  md-table {
-  }
-</style>
+<style lang="scss"></style>

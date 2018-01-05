@@ -1,13 +1,45 @@
-import Vue from 'vue'
-import TaskList from '@/components/TalkList'
+import { shallow, createLocalVue } from 'vue-test-utils'
+import Vuex from 'vuex'
+import * as types from '@/store/types'
+import state from '@/store/state'
+import TalkList from '@/components/TalkList'
 
-Vue.config.ignoredElements = ['md-table', 'md-table-head', 'md-table-header', 'md-table-body', 'md-table-row', 'md-table-cell']
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
-describe('TaskList.vue', () => {
+let wrapper
+let store
+
+const fakeStore = {
+  state,
+  getters: {
+    [types.JS_TALK_DATA]: ({jsTalkData}) => jsTalkData
+  },
+  mutations: {},
+  actions: {},
+  strict: true
+}
+
+describe('TalkList', () => {
+  beforeEach(() => {
+    store = new Vuex.Store(fakeStore)
+    wrapper = shallow(TalkList, { localVue, store })
+  })
+
+  it('should be a Vue instance', () => {
+    expect(wrapper.isVueInstance()).toBeTruthy()
+  })
+
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(TaskList)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('md-table md-table-head:first-child').textContent)
-    .toEqual('Titre')
+    const fistHeadValue = wrapper.find('md-table md-table-head:first-child')
+
+    expect(fistHeadValue.text()).toBe('Titre')
+  })
+
+  it('should render correct first data cells', () => {
+    const firstCellData = store.state.jsTalkData[0]
+    const firstCellBody = wrapper.find('md-table md-table-row:first-child md-table-cell:first-child')
+
+    expect(firstCellBody.text()).toBe(firstCellData.title)
   })
 })
