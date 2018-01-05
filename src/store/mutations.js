@@ -1,8 +1,9 @@
-// import * as types from './types'
+import * as types from './types'
 
 export default {
-  // TODO remove at first mutation
-  /* [types.MY_MUTATION] (state, str) {
-    state.test = str
-  } */
+  [types.ADD_TALK] (state, formData) {
+    console.log('formData: ', formData)
+    // TODO post it with axios, if 200 send it to state
+    state.jsTalkData.push(formData)
+  }
 }

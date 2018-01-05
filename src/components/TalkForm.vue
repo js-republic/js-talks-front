@@ -1,41 +1,45 @@
 <template>
-  <form>
-    <md-radio v-model="proposal" :value="true">Proposition</md-radio>
-    <md-radio v-model="proposal" :value="false">Demande</md-radio>
+  <form @submit.prevent="addTalk(form)">
+    <md-radio v-model="form.proposal" value="true">Proposition</md-radio>
+    <md-radio v-model="form.proposal" value="false">Demande</md-radio>
 
     <md-field>
       <label>Titre</label>
-      <md-input v-model="title"></md-input>
+      <md-input v-model="form.title"></md-input>
     </md-field>
 
     <md-field>
       <label>Description</label>
-      <md-textarea v-model="description" md-counter="120"></md-textarea>
+      <md-textarea v-model="form.description" md-counter="120"></md-textarea>
     </md-field>
 
-    <md-datepicker v-model="selectedDate" :md-disabled-dates="isWeekend"></md-datepicker>
+    <md-datepicker v-model="form.selectedDate" :md-disabled-dates="isWeekend"></md-datepicker>
 
     <md-field>
       <label>Support/vidéo</label>
-      <md-textarea v-model="support" md-counter="120"></md-textarea>
+      <md-textarea v-model="form.support" md-counter="120"></md-textarea>
     </md-field>
 
-    <md-button class="md-raised md-primary">Submit</md-button>
-    
+    <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+
   </form>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: 'TalkForm',
   data: () => ({
-    proposal: 'true',
-    title: '',
-    description: '',
-    selectedDate: null,
-    support: ''
+    form: {
+      proposal: 'true',
+      title: '',
+      description: '',
+      selectedDate: null,
+      support: ''
+    }
   }),
   methods: {
+    ...mapActions(['addTalk']),
     isWeekend: date => {
       const day = date.getDay()
 
