@@ -1,12 +1,29 @@
-import { mount } from 'vue-test-utils'
+import { shallow, createLocalVue } from 'vue-test-utils'
+import Vuex from 'vuex'
+import * as types from '@/store/types'
+import state from '@/store/state'
 import TalkList from '@/components/TalkList'
-import store from '@/store'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 let wrapper
+let store
+
+const fakeStore = {
+  state,
+  getters: {
+    [types.JS_TALK_DATA]: ({jsTalkData}) => jsTalkData
+  },
+  mutations: {},
+  actions: {},
+  strict: true
+}
 
 describe('TalkList', () => {
   beforeEach(() => {
-    wrapper = mount(TalkList)
+    store = new Vuex.Store(fakeStore)
+    wrapper = shallow(TalkList, { localVue, store })
   })
 
   it('should be a Vue instance', () => {
