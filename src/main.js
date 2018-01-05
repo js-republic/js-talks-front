@@ -11,7 +11,7 @@ Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+/* eslint-disable no-new, vue/order-in-components */
 new Vue({
   el: '#app',
   router,
