@@ -1,1 +1,8 @@
-export const JS_TALK_DATA = 'JS_TALK_DATA'
+module.exports = {
+  TALKS: 'TALKS',
+  LOGGED_USER: 'LOGGED_USER',
+  ADD_TALK: 'ADD_TALK',
+  SET_TALKS: 'SET_TALKS',
+  DELETE_TALK: 'DELETE_TALK',
+  EDIT_TALK: 'EDIT_TALK'
+}

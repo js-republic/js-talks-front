@@ -1,46 +1,70 @@
 <template>
   <md-table class="talk-table" md-sort="likes">
-    <md-table-header>
-      <md-table-row>
-        <md-table-head md-sort-by="title">Titre</md-table-head>
-        <md-table-head md-sort-by="auteur">Auteur</md-table-head>
-        <md-table-head md-sort-by="likes" md-numeric >Likes</md-table-head>
-        <md-table-head md-sort-by="type">Type</md-table-head>
-        <md-table-head md-sort-by="speaker">Speaker</md-table-head>
-        <md-table-head md-sort-by="description">Description</md-table-head>
-        <md-table-head md-sort-by="lenght">Longueur</md-table-head>
-        <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
-        <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
-      </md-table-row>
-    </md-table-header>
+    <md-table-row>
+      <md-table-head md-sort-by="title">Titre</md-table-head>
+      <md-table-head md-sort-by="auteur">Auteur</md-table-head>
+      <md-table-head md-sort-by="likes" md-numeric >Likes</md-table-head>
+      <md-table-head md-sort-by="type">Type</md-table-head>
+      <md-table-head md-sort-by="speaker">Speaker</md-table-head>
+      <md-table-head md-sort-by="description">Description</md-table-head>
+      <md-table-head md-sort-by="lenght">Longueur</md-table-head>
+      <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
+      <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
+      <md-table-head></md-table-head>
+    </md-table-row>
 
-    <md-table-body>
-      <md-table-row v-for="(jsTalk, index) in JS_TALK_DATA" :key="index">
-        <md-table-cell>{{jsTalk.title}}</md-table-cell>
-        <md-table-cell>{{jsTalk.auteur}}</md-table-cell>
-        <md-table-cell>{{jsTalk.likes}}</md-table-cell>
-        <md-table-cell>{{jsTalk.type}}</md-table-cell>
-        <md-table-cell>{{jsTalk.speaker}}</md-table-cell>
-        <md-table-cell>{{jsTalk.description}}</md-table-cell>
-        <md-table-cell>{{jsTalk.lenght}}</md-table-cell>
-        <md-table-cell>{{jsTalk.scheduledAt}}</md-table-cell>
-        <md-table-cell>{{jsTalk.supportAndVideo}}</md-table-cell>
-      </md-table-row>
-    </md-table-body>
+    <md-table-row v-for="(talk, index) in TALKS" :key="index">
+      <md-table-cell>{{talk.title}}</md-table-cell>
+      <md-table-cell>{{talk.author}}</md-table-cell>
+      <md-table-cell>{{talk.likes}}</md-table-cell>
+      <md-table-cell>{{talk.type}}</md-table-cell>
+      <md-table-cell>{{talk.speaker}}</md-table-cell>
+      <md-table-cell>{{talk.description}}</md-table-cell>
+      <md-table-cell>{{talk.lenght}}</md-table-cell>
+      <md-table-cell>{{talk.scheduledAt}}</md-table-cell>
+      <md-table-cell>{{talk.supportAndVideo}}</md-table-cell>
+      <md-table-cell>
+        <md-button class="md-icon-button">
+          <md-icon>mode_edit</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" @click="openDeleteDialog(talk)">
+          <md-icon>delete</md-icon>
+        </md-button>
+      </md-table-cell>
+    </md-table-row>
+
+    <md-dialog-confirm
+      v-if="currentTalk" :md-active.sync="showDialog"
+      :md-content="`Vous êtes sur le point de supprimer votre talk ${currentTalk.title} ! Êtes-vous sûr ?`"
+      md-title="Êtes-vous sûr?"
+      md-confirm-text="Confirmer"
+      md-cancel-text="Annuler"
+      @md-cancel="dialogOpen = false"
+      @md-confirm="deleteTalk(currentTalk)">
+    </md-dialog-confirm>
 
   </md-table>
 </template>
 
 <script>
-import { JS_TALK_DATA } from '../store/types'
-import { mapGetters } from 'vuex'
+import * as types from '../store/types'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'TalkList',
+  data: () => ({
+    showDialog: false,
+    currentTalk: null
+  }),
+  methods: {
+    ...mapActions(['deleteTalk', 'editTalk']),
+    openDeleteDialog (talk) {
+      this.currentTalk = talk
+      this.showDialog = true
+    }
+  },
   computed: {
-    ...mapGetters([JS_TALK_DATA])
+    ...mapGetters([types.TALKS])
   }
 }
 </script>
-
-<style lang="scss"></style>

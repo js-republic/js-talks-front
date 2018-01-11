@@ -1,7 +1,10 @@
-import * as types from './types'
+import types from './types'
 
 export default {
-  [types.JS_TALK_DATA] (state) {
-    return state.jsTalkData
+  [types.TALKS] (state) {
+    return state.talks
+  },
+  [types.LOGGED_USER] (state) {
+    return state.loggedUser
   }
 }
