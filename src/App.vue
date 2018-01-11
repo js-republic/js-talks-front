@@ -1,28 +1,12 @@
 <template>
   <div id="app">
-    <md-app>
-      <md-app-toolbar md-elevation="3" class="main-toolbar">
-        <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
-          <md-icon>add</md-icon>
-        </md-button>
-        <span class="md-title">JS-Talks</span>
+    <md-app v-if="logged">
+      <md-app-toolbar md-elevation="3">
+        <top-header @toggle="toggleSidebar()"></top-header>
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
-          <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
-            <div md-elevation="1">
-              <md-toolbar class="md-transparent" md-elevation="0">
-                <span>Nouveau Talk</span>
-
-                <div class="md-toolbar-section-end">
-                  <md-button class="md-icon-button md-dense" @click="toggleMenu">
-                    <md-icon>close</md-icon>
-                  </md-button>
-                </div>
-              </md-toolbar>
-              <talk-form></talk-form>
-            </div>
-          </md-app-drawer>
+          <sidebar :sidebarVisible="sidebarVisible" @toggle="toggleSidebar()"></sidebar>
           <router-view></router-view>
         </main>
       </md-app-content>
@@ -31,19 +15,25 @@
 </template>
 
 <script>
-import TalkForm from './components/TalkForm'
+import * as types from '@/store/types'
 
 export default {
   name: 'app',
   components: {
-    TalkForm
+    TopHeader: () => import('./components/TopHeader'),
+    Sidebar: () => import('./components/Sidebar')
   },
   data: () => ({
-    menuVisible: false
+    sidebarVisible: false
   }),
   methods: {
-    toggleMenu () {
-      this.menuVisible = !this.menuVisible
+    toggleSidebar () {
+      this.sidebarVisible = !this.sidebarVisible
+    }
+  },
+  computed: {
+    logged () {
+      return this.$store.getters[types.LOGGED_USER].logged
     }
   }
 }
@@ -65,10 +55,12 @@ export default {
     height: 100%;
     overflow: hidden;
   }
-
   #app {
     display: flex;
     flex-flow: column;
+    > * {
+      height: 100%;
+    }
     .main-content {
       padding: 2rem;
     }
