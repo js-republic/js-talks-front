@@ -6,7 +6,6 @@
     <md-field :class="{ 'md-invalid': isInputInvalid('title') }">
       <label>Titre</label>
       <md-input
-        :class="error"
         v-model.trim="form.title"
         md-counter="120"
         maxlength="120"
@@ -76,22 +75,29 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'TalkForm',
+  props: ['sidebarVisible'],
   data: () => ({
-    form: {
+    initialForm: {
       proposal: true,
       title: '',
       description: '',
-      scheduledAt: null,
+      scheduledAt: '',
       support: '',
       speaker: '',
       duration: ''
     },
-    errors: {
+    initialErrors: {
       title: { touched: false, empty: true },
       description: { touched: false, empty: true },
       duration: { touched: false, empty: true }
-    }
+    },
+    form: {},
+    errors: {}
   }),
+  created () {
+    this.resetForm()
+    this.resetErrors()
+  },
   methods: {
     ...mapActions(['addTalk']),
     isWeekend: date => {
@@ -103,19 +109,24 @@ export default {
       this.errors[field].empty = this.form[field].length === 0
     },
     isInputInvalid (field) {
-      return this.errors[field].touched && this.errors[field].empty
+      return this.errors[field] && this.errors[field].touched && this.errors[field].empty
     },
     isFormInvalid () {
-      let errorFound
-
-      const values = Object.values(this.errors)
-
-      Object.keys(values).some(key => {
-        errorFound = key === 'empty' && values[key] === 'true'
-        return errorFound
-      })
-
-      return errorFound
+      return Object.values(this.errors)
+        .some(value => Object.keys(value)
+          .some(key => key === 'empty' && value.empty === true)
+        )
+    },
+    resetForm () {
+      this.form = JSON.parse(JSON.stringify(this.initialForm))
+    },
+    resetErrors () {
+      this.errors = JSON.parse(JSON.stringify(this.initialErrors))
+    }
+  },
+  watch: {
+    sidebarVisible () {
+      console.log(this.resetErrors())
     }
   }
 }
