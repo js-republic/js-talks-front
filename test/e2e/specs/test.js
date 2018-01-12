@@ -12,7 +12,7 @@ module.exports = {
       .url(devServer)
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.talk-table')
-      .assert.containsText('h2', 'JS-Talks')
+      .assert.containsText('.md-title', 'JS-Talks')
       .end()
   }
 }
