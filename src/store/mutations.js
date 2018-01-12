@@ -4,15 +4,15 @@ export const state = {
   talks: [
     {
       id: '1',
-      title: 'aaa',
-      author: 'aaa',
+      title: 'Il jouait du piano debout',
+      author: 'France Gall',
       likes: 11,
-      type: 'aaa',
-      speaker: 'aaa',
-      description: 'aaa',
+      type: 'Talk',
+      speaker: 'France Gall',
+      description: 'Une brêve description du pourquoi et du comment de cette manière de jouer du piano',
       duration: 60,
       scheduledAt: new Date().getTime(),
-      supportAndVideo: 'aaa'
+      supportAndVideo: 'Ecran tv'
     }
   ],
   loggedUser: {
