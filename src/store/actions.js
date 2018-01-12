@@ -1,4 +1,4 @@
-import * as types from './types'
+import { ADD_TALK, SET_TALKS, DELETE_TALK } from './types'
 import axios from 'axios'
 
 export default {
@@ -6,7 +6,7 @@ export default {
     try {
       await axios.post('url_to_server', formData)
 
-      commit(types.ADD_TALK, formData)
+      commit(ADD_TALK, formData)
     } catch (error) {
       console.log(error)
     }
@@ -15,7 +15,7 @@ export default {
     try {
       await axios.get('url_to_server')
 
-      commit(types.SET_TALKS)
+      commit(SET_TALKS)
     } catch (error) {
       console.log(error)
     }
@@ -28,7 +28,7 @@ export default {
     try {
       await axios.delete('url_to_server', id)
 
-      commit(types.DELETE_TALK, id)
+      commit(DELETE_TALK, id)
     } catch (error) {
       console.log(error)
     }

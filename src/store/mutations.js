@@ -1,4 +1,4 @@
-import * as types from './types'
+import { ADD_TALK, DELETE_TALK, EDIT_TALK, SET_TALKS } from './types'
 
 export const state = {
   talks: [
@@ -10,8 +10,8 @@ export const state = {
       type: 'aaa',
       speaker: 'aaa',
       description: 'aaa',
-      lenght: 11,
-      scheduledAt: new Date().toDateString(),
+      duration: 60,
+      scheduledAt: new Date().getTime(),
       supportAndVideo: 'aaa'
     }
   ],
@@ -24,17 +24,17 @@ export const state = {
 }
 
 export const mutations = {
-  [types.ADD_TALK] (state, formData) {
+  [ADD_TALK] (state, formData) {
     state.talks.push(formData)
   },
-  [types.DELETE_TALK] (state, id) {
+  [DELETE_TALK] (state, id) {
     this.talks.find(talk => talk.id === id)
   },
-  [types.EDIT_TALK] (state, { formData, talkId }) {
+  [EDIT_TALK] (state, { formData, talkId }) {
     const talk = this.talks.find(talk => talk.id === talkId)
     Object.assign(talk, formData)
   },
-  [types.SET_TALKS] (state, talks) {
+  [SET_TALKS] (state, talks) {
     this.talks = talks
   }
 }

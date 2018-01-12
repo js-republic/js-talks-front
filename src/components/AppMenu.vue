@@ -6,13 +6,13 @@
         </md-button>
         <md-menu-content>
           <md-menu-item>
-            <router-link to="/admin">Administrateur</router-link>
+            <router-link class="links" to="/agenda">Agenda</router-link>
           </md-menu-item>
           <md-menu-item>
-            <router-link to="/">Talks</router-link>
+            <router-link class="links" to="/">Talks</router-link>
           </md-menu-item>
           <md-menu-item>
-            <router-link to="/agenda">Agenda</router-link>
+            <router-link class="links" to="/admin">Administrateur</router-link>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -26,5 +26,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .md-list-item {
+    a.links:hover {
+      color: rgba(68, 138, 255, 0.6);
+      text-decoration: none;
+    }
+  }
 </style>

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import * as types from '@/store/types'
+import { LOGGED_USER } from '@/store/types'
 
 Vue.use(Router)
 
-const checkToken = () => store.getters[types.LOGGED_USER].logged
+const checkToken = () => store.getters[LOGGED_USER].logged
 
 export default new Router({
   mode: 'history',

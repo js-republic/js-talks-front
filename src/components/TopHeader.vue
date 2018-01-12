@@ -3,7 +3,9 @@
     <md-button class="md-icon-button" @click="$emit('toggle')">
       <md-icon>add</md-icon>
     </md-button>
-    <span class="md-title">JS-Talks</span>
+    <span class="md-title">
+      <router-link class="links" to="/">JS-Talks</router-link>
+    </span>
 
     <div class="menus-container">
       <md-button class="md-dense">
@@ -41,6 +43,14 @@ export default {
         align-items: center;
         margin-left: auto;
       }
+  }
+
+  .md-title a {
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+    }
   }
 
   .md-list-item-default md-list-item-container md-button-clean {

@@ -7,7 +7,7 @@
       <md-table-head md-sort-by="type">Type</md-table-head>
       <md-table-head md-sort-by="speaker">Speaker</md-table-head>
       <md-table-head md-sort-by="description">Description</md-table-head>
-      <md-table-head md-sort-by="lenght">Longueur</md-table-head>
+      <md-table-head md-sort-by="duration">Durée</md-table-head>
       <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
       <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
       <md-table-head></md-table-head>
@@ -20,7 +20,7 @@
       <md-table-cell>{{talk.type}}</md-table-cell>
       <md-table-cell>{{talk.speaker}}</md-table-cell>
       <md-table-cell>{{talk.description}}</md-table-cell>
-      <md-table-cell>{{talk.lenght}}</md-table-cell>
+      <md-table-cell>{{talk.duration}}</md-table-cell>
       <md-table-cell>{{talk.scheduledAt}}</md-table-cell>
       <md-table-cell>{{talk.supportAndVideo}}</md-table-cell>
       <md-table-cell>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import * as types from '../store/types'
+import { TALKS } from '@/store/types'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -64,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([types.TALKS])
+    ...mapGetters([TALKS])
   }
 }
 </script>

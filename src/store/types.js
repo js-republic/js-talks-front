@@ -1,5 +1,6 @@
 module.exports = {
   TALKS: 'TALKS',
+  TALK_EVENTS: 'TALK_EVENTS',
   LOGGED_USER: 'LOGGED_USER',
   ADD_TALK: 'ADD_TALK',
   SET_TALKS: 'SET_TALKS',

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import * as types from '@/store/types'
+import { LOGGED_USER } from '@/store/types'
 
 export default {
   name: 'app',
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     logged () {
-      return this.$store.getters[types.LOGGED_USER].logged
+      return this.$store.getters[LOGGED_USER].logged
     }
   }
 }
@@ -63,6 +63,9 @@ export default {
     }
     .main-content {
       padding: 2rem;
+    }
+    a.links:hover {
+      text-decoration: none;
     }
   }
 </style>
