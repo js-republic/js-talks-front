@@ -10,7 +10,7 @@
           </md-button>
         </div>
       </md-toolbar>
-      <talk-form></talk-form>
+      <talk-form :sidebarVisible="sidebarVisible"></talk-form>
     </div>
   </md-app-drawer>
 </template>
