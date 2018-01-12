@@ -21,7 +21,7 @@
       <md-table-cell>{{talk.speaker}}</md-table-cell>
       <md-table-cell>{{talk.description}}</md-table-cell>
       <md-table-cell>{{talk.duration}}</md-table-cell>
-      <md-table-cell>{{talk.scheduledAt}}</md-table-cell>
+      <md-table-cell>{{formatDate(talk.scheduledAt)}}</md-table-cell>
       <md-table-cell>{{talk.supportAndVideo}}</md-table-cell>
       <md-table-cell>
         <md-button class="md-icon-button">
@@ -61,6 +61,9 @@ export default {
     openDeleteDialog (talk) {
       this.currentTalk = talk
       this.showDialog = true
+    },
+    formatDate (timestamp) {
+      return new Date(timestamp).toLocaleDateString()
     }
   },
   computed: {
