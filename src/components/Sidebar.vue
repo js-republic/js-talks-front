@@ -2,7 +2,7 @@
   <md-app-drawer :md-active.sync="syncSidebarVisible">
     <div md-elevation="1">
       <md-toolbar class="md-transparent" md-elevation="0">
-        <span>Nouveau Talk</span>
+        <span class="md-title">Nouveau Talk</span>
 
         <div class="md-toolbar-section-end">
           <md-button class="md-icon-button md-dense" @click="$emit('toggle')">
