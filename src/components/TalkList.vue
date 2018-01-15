@@ -59,6 +59,8 @@ export default {
   methods: {
     ...mapActions(['deleteTalk', 'editTalk']),
     openDeleteDialog (talk) {
+      if (!talk) return false
+
       this.currentTalk = talk
       this.showDialog = true
     },
