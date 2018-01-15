@@ -10,7 +10,7 @@
     <div class="menus-container">
       <md-button class="md-dense">
         <md-icon>keyboard_arrow_right</md-icon>
-        {{LOGGED_USER.firstname}}
+        <span>{{LOGGED_USER.firstname}}</span>
       </md-button>
       <app-menu />
     </div>
@@ -20,15 +20,14 @@
 <script>
 import { LOGGED_USER } from '../store/types'
 import { mapGetters } from 'vuex'
+import AppMenu from './AppMenu'
 
 export default {
   name: 'top-header',
   computed: {
     ...mapGetters([LOGGED_USER])
   },
-  components: {
-    AppMenu: () => import('./AppMenu')
-  }
+  components: { AppMenu }
 }
 </script>
 

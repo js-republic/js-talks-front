@@ -126,7 +126,7 @@ export default {
   },
   watch: {
     sidebarVisible () {
-      console.log(this.resetErrors())
+      this.resetErrors()
     }
   }
 }
