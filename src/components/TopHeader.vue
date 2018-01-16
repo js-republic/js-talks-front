@@ -1,6 +1,6 @@
 <template>
   <div class="main-toolbar">
-    <md-button class="md-icon-button" @click="$emit('toggle')">
+    <md-button class="md-icon-button" @click="$emit('toggleSidebar')">
       <md-icon>add</md-icon>
     </md-button>
     <span class="md-title">

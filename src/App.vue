@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <md-app v-if="logged">
+    <md-app v-if="LOGGED_USER.logged">
       <md-app-toolbar md-elevation="3">
-        <top-header @toggle="toggleSidebar()"></top-header>
+        <top-header @toggleSidebar="sidebarVisible = !sidebarVisible"></top-header>
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
-          <sidebar :sidebarVisible="sidebarVisible" @toggle="toggleSidebar()"></sidebar>
+          <sidebar :sidebarVisible="sidebarVisible" @sidebarVisible="sidebarVisible = $event"></sidebar>
           <router-view></router-view>
         </main>
       </md-app-content>
@@ -16,6 +16,7 @@
 
 <script>
 import { LOGGED_USER } from '@/store/types'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
@@ -26,15 +27,8 @@ export default {
   data: () => ({
     sidebarVisible: false
   }),
-  methods: {
-    toggleSidebar () {
-      this.sidebarVisible = !this.sidebarVisible
-    }
-  },
   computed: {
-    logged () {
-      return this.$store.getters[LOGGED_USER].logged
-    }
+    ...mapGetters([LOGGED_USER])
   }
 }
 </script>

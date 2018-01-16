@@ -5,12 +5,12 @@
         <span class="md-title">Nouveau Talk</span>
 
         <div class="md-toolbar-section-end">
-          <md-button class="md-icon-button md-dense" @click="$emit('toggle')">
+          <md-button class="md-icon-button md-dense" @click="$emit('sidebarVisible', false)">
             <md-icon>close</md-icon>
           </md-button>
         </div>
       </md-toolbar>
-      <talk-form :sidebarVisible="sidebarVisible"></talk-form>
+      <talk-form @sidebar="syncSidebarVisible = $event" :sidebarVisible="sidebarVisible"></talk-form>
     </div>
   </md-app-drawer>
 </template>
@@ -28,8 +28,8 @@ export default {
       get () {
         return this.sidebarVisible
       },
-      set () {
-        this.$emit('toggle')
+      set (visible) {
+        this.$emit('sidebarVisible', visible)
       }
     }
   }
