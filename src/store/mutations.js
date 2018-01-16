@@ -12,7 +12,7 @@ export const state = {
       description: 'Une brêve description du pourquoi et du comment de cette manière de jouer du piano',
       duration: 60,
       scheduledAt: new Date().getTime(),
-      supportAndVideo: 'Ecran tv'
+      support: 'Ecran tv'
     }
   ],
   loggedUser: {
@@ -28,13 +28,13 @@ export const mutations = {
     state.talks.push(formData)
   },
   [DELETE_TALK] (state, id) {
-    this.talks.find(talk => talk.id === id)
+    state.talks = state.talks.filter(talk => talk.id !== id)
   },
   [EDIT_TALK] (state, { formData, talkId }) {
-    const talk = this.talks.find(talk => talk.id === talkId)
+    const talk = state.talks.find(talk => talk.id === talkId)
     Object.assign(talk, formData)
   },
   [SET_TALKS] (state, talks) {
-    this.talks = talks
+    state.talks = talks
   }
 }
