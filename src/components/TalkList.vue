@@ -9,7 +9,7 @@
       <md-table-head md-sort-by="description">Description</md-table-head>
       <md-table-head md-sort-by="duration">Durée</md-table-head>
       <md-table-head md-sort-by="scheduledAt">Programmé le</md-table-head>
-      <md-table-head md-sort-by="supportAndVideo">Support/vidéo</md-table-head>
+      <md-table-head md-sort-by="support">Support/vidéo</md-table-head>
       <md-table-head></md-table-head>
     </md-table-row>
 
@@ -65,7 +65,7 @@ export default {
       this.showDialog = true
     },
     formatDate (timestamp) {
-      return new Date(timestamp).toLocaleDateString()
+      return new Date(timestamp).toLocaleString().slice(0, -3)
     }
   },
   computed: {
