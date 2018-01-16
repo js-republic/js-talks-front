@@ -2,9 +2,11 @@ import { ADD_TALK, SET_TALKS, DELETE_TALK } from './types'
 import axios from 'axios'
 
 export default {
-  async addTalk ({ commit }, formData) {
+  async addTalk ({ commit, state }, formData) {
     try {
-      await axios.post('url_to_server', formData)
+      formData.author = state.loggedUser.firstname
+      formData.likes = 0
+      // await axios.post('url_to_server', formData)
 
       commit(ADD_TALK, formData)
     } catch (error) {
@@ -13,7 +15,7 @@ export default {
   },
   async getTalks ({ commit }) {
     try {
-      await axios.get('url_to_server')
+      // await axios.get('url_to_server')
 
       commit(SET_TALKS)
     } catch (error) {
@@ -26,7 +28,7 @@ export default {
   },
   async deleteTalk ({ commit }, id) {
     try {
-      await axios.delete('url_to_server', id)
+      // await axios.delete('url_to_server', id)
 
       commit(DELETE_TALK, id)
     } catch (error) {
