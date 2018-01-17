@@ -1,8 +1,36 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
+import { mutations, state } from '@/store/mutations'
+import actions from '@/store/actions'
+import getters from '@/store/getters'
 import TalkForm from '@/components/TalkForm'
 
+Vue.use(Vuex)
+
 const Constructor = Vue.extend(TalkForm)
-let vm
+let vm, store
+
+describe('addTalk', () => {
+  beforeEach(() => {
+    store = new Vuex.Store({
+      mutations,
+      state,
+      actions,
+      getters,
+      strict: true
+    })
+    vm = new Constructor({ store })
+    vm.resetForm()
+  })
+
+  it('should add the talk to the store', () => {
+    vm.form.title = 'Testing is your way'
+    vm.addTalk()
+
+    const addedTalk = vm.$store.state.talks.find(talk => talk.title === 'Testing is your way')
+    expect(addedTalk).not.toBe(undefined)
+  })
+})
 
 describe('resetForm', () => {
   beforeEach(() => {
@@ -98,7 +126,7 @@ describe('isFormInvalid', () => {
 
 describe('sidebarVisible', () => {
   beforeEach(() => {
-    vm = new Constructor({ propsData: { sidebarVisible: true }})
+    vm = new Constructor({ propsData: { sidebarVisible: true } })
   })
 
   it('should reset form', () => {

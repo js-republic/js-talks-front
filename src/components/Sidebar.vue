@@ -5,31 +5,37 @@
         <span class="md-title">Nouveau Talk</span>
 
         <div class="md-toolbar-section-end">
-          <md-button class="md-icon-button md-dense" @click="$emit('sidebarVisible', false)">
+          <md-button class="md-icon-button md-dense" @click="$emit('sidebarEvent', false)">
             <md-icon>close</md-icon>
           </md-button>
         </div>
       </md-toolbar>
-      <talk-form @sidebar="syncSidebarVisible = $event" :sidebarVisible="sidebarVisible"></talk-form>
+      <talk-form
+        @sidebarEvent="syncSidebarVisible = $event"
+        :sidebarVisible="sidebarVisible"
+        :editingTalk="editingTalk"></talk-form>
     </div>
   </md-app-drawer>
 </template>
 
 
 <script>
+import TalkForm from './TalkForm'
+
 export default {
   name: 'sidebar',
-  props: ['sidebarVisible'],
+  props: ['sidebarVisible', 'editingTalk'],
   components: {
-    TalkForm: () => import('./TalkForm')
+    TalkForm
   },
   computed: {
     syncSidebarVisible: {
       get () {
         return this.sidebarVisible
       },
+
       set (visible) {
-        this.$emit('sidebarVisible', visible)
+        this.$emit('sidebarEvent', visible)
       }
     }
   }
