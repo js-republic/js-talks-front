@@ -35,8 +35,6 @@ export default {
   @import "../../static/fullcalendar.min.css";
 
   .fc {
-    max-height: 1000px;
-
     .fc-button {
       background: transparent;
 

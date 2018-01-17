@@ -45,15 +45,22 @@ export default {
 
   html,
   body,
-  #app {
+  #app,
+  .md-app,
+  .md-app-container {
     height: 100%;
     overflow: hidden;
   }
+
   #app {
     display: flex;
     flex-flow: column;
     > * {
       height: 100%;
+    }
+
+    .md-app-scroller {
+      overflow: auto;
     }
     .main-content {
       padding: 2rem;
