@@ -8,7 +8,7 @@ export const state = {
       author: 'France Gall',
       likes: 11,
       proposal: true,
-      speaker: 'France Gall',
+      speakerId: '1',
       description: 'Une brêve description du pourquoi et du comment de cette manière de jouer du piano',
       duration: 60,
       scheduledAt: new Date().getTime(),

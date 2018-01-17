@@ -1,5 +1,5 @@
 <template>
-  <form novalidate @submit.prevent="addTalk">
+  <form novalidate @submit.prevent="handleSubmit">
     <md-radio v-model="form.proposal" :value="true">Proposition</md-radio>
     <md-radio v-model="form.proposal" :value="false">Demande</md-radio>
 
@@ -42,19 +42,19 @@
         <span class="md-error">Une durée est requise</span>
       </md-field>
 
-      <md-datepicker v-model="form.scheduledAt.date" :md-disabled-dates="isWeekend"></md-datepicker>
+      <md-datepicker v-model="form.datetime.date" :md-disabled-dates="isWeekend"></md-datepicker>
 
       <md-field class="inline-field">
         <label>Heures</label>
-        <md-select v-model="form.scheduledAt.hour" md-dense>
-          <md-option :value="hour" v-for="hour in HOURS_LIST" :key="hour">{{hour}}</md-option>
+        <md-select v-model="form.datetime.hours" md-dense>
+          <md-option :value="hours" v-for="hours in HOURS_LIST" :key="hours">{{hours}}</md-option>
         </md-select>
       </md-field>
 
       <md-field class="inline-field">
         <label>Minutes</label>
-        <md-select v-model="form.scheduledAt.minute" md-dense>
-          <md-option :value="minute" v-for="minute in MINUTES_LIST" :key="minute">{{minute}}</md-option>
+        <md-select v-model="form.datetime.minutes" md-dense>
+          <md-option :value="minutes" v-for="minutes in MINUTES_LIST" :key="minutes">{{minutes}}</md-option>
         </md-select>
       </md-field>
 
@@ -70,9 +70,7 @@
     <md-field v-else>
       <label>Speaker</label>
       <md-select v-model="form.speaker">
-        <md-option value="foo">Foo</md-option>
-        <md-option value="bar">Bar</md-option>
-        <md-option value="ada">Ada</md-option>
+        <md-option :key="user.id" v-for="user in USERS" value="user.id">{{`${user.firstname} ${user.name}`}}</md-option>
       </md-select>
     </md-field>
 
@@ -80,27 +78,31 @@
       type="submit"
       :disabled="isFormInvalid()"
       class="md-raised md-primary"
-    >Submit</md-button>
+    >{{editingTalk ? 'Edit' : 'Submit'}}</md-button>
   </form>
 </template>
 
 <script>
+import { USERS } from '@/store/types'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'TalkForm',
-  props: ['sidebarVisible'],
+  props: ['sidebarVisible', 'editingTalk'],
   data: () => ({
     initialForm: {
       proposal: true,
       title: '',
       description: '',
-      scheduledAt: {
-        date: null,
-        hour: null,
-        minute: null
-      },
+      scheduledAt: null,
       support: '',
       speaker: '',
-      duration: ''
+      duration: '',
+      datetime: {
+        date: null,
+        hours: null,
+        minutes: null
+      }
     },
     initialErrors: {
       title: { touched: false, empty: true },
@@ -109,57 +111,106 @@ export default {
     },
     form: {},
     errors: {},
-    HOURS_LIST: Array.from(Array(24).keys()).slice(8, 22),
-    MINUTES_LIST: Array.from(Array(60).keys()).filter(minutes => minutes % 15 === 0)
+    USERS: [],
+    HOURS_LIST: [],
+    MINUTES_LIST: []
   }),
   created () {
     this.resetForm()
     this.resetErrors()
+    this.getHoursList()
+    this.getMinutesList()
   },
   methods: {
-    addTalk () {
-      const formCopy = Object.assign({}, this.form)
-      const date = this.form.scheduledAt.date
-
-      date.setHours(this.form.scheduledAt.hour)
-      date.setMinutes(this.form.scheduledAt.minute)
+    handleSubmit () {
+      const date = this.form.datetime.date
 
       this.closeSidebar()
 
-      formCopy.scheduledAt = date ? date.getTime() : null
+      date.setHours(parseInt(this.form.datetime.hours))
+      date.setMinutes(parseInt(this.form.datetime.minutes))
+      this.form.scheduledAt = date ? date.getTime() : null
 
-      this.$store.dispatch('addTalk', this.form)
+      if (this.editingTalk) {
+        this.$store.dispatch('editTalk', {
+          formData: this.form,
+          talkId: this.editingTalk.id
+        })
+      } else {
+        this.$store.dispatch('addTalk', { formData: this.form })
+      }
     },
+
+    formatNumber (number) {
+      return (number >= 10 ? '' : '0') + number
+    },
+
+    getHoursList () {
+      this.HOURS_LIST = Array.from(Array(24).keys())
+        .slice(8, 22)
+        .map(hour => this.formatNumber(hour))
+    },
+
+    getMinutesList () {
+      this.MINUTES_LIST = Array.from(Array(60).keys())
+        .filter(minutes => minutes % 15 === 0)
+        .map(minutes => this.formatNumber(minutes))
+    },
+
     closeSidebar () {
       this.$emit('sidebar', false)
     },
-    isWeekend (date) {
-      const day = date.getDay()
-      return day === 6 || day === 0
-    },
+
     updateFieldStatus (field) {
       this.errors[field].touched = true
       this.errors[field].empty = this.form[field].length === 0
     },
+
+    isWeekend (date) {
+      const day = date.getDay()
+      return day === 6 || day === 0
+    },
+
     isInputInvalid (field) {
       return this.errors[field] && this.errors[field].touched && this.errors[field].empty
     },
+
     isFormInvalid () {
       return Object.values(this.errors)
         .some(value => Object.keys(value)
           .some(key => key === 'empty' && value.empty === true)
         )
     },
+
     resetForm () {
       this.form = JSON.parse(JSON.stringify(this.initialForm))
     },
+
     resetErrors () {
       this.errors = JSON.parse(JSON.stringify(this.initialErrors))
     }
   },
+  computed: {
+    ...mapGetters[USERS]
+  },
   watch: {
     sidebarVisible () {
       this.resetErrors()
+    },
+    editingTalk () {
+      const date = new Date(this.editingTalk.scheduledAt)
+
+      Object.assign(this.form, this.editingTalk)
+      Object.keys(this.errors).forEach(error => {
+        this.errors[error].touched = true
+        this.errors[error].empty = false
+      })
+
+      this.form.datetime = {
+        date,
+        hours: this.formatNumber(date.getHours()),
+        minutes: this.formatNumber(date.getMinutes())
+      }
     }
   }
 }

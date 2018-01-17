@@ -2,7 +2,7 @@ import * as types from './types'
 import axios from 'axios'
 
 export default {
-  async addTalk ({ commit, state }, formData) {
+  async addTalk ({ commit, state }, { formData }) {
     try {
       formData.author = state.loggedUser.firstname
       formData.likes = 0

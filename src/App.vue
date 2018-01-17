@@ -6,8 +6,13 @@
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
-          <sidebar :sidebarVisible="sidebarVisible" @sidebarEvent="sidebarVisible = $event"></sidebar>
-          <router-view></router-view>
+          <sidebar
+            :sidebarVisible="sidebarVisible"
+            :editingTalk="editingTalk"
+            @sidebarEvent="sidebarVisible = $event"
+            @editTalk="editingTalk = $event"
+          ></sidebar>
+          <router-view @editTalk="editingTalk = $event"></router-view>
         </main>
       </md-app-content>
     </md-app>
@@ -25,10 +30,24 @@ export default {
     Sidebar: () => import('./components/Sidebar')
   },
   data: () => ({
-    sidebarVisible: false
+    sidebarVisible: false,
+    editingTalk: null
   }),
   computed: {
     ...mapGetters([LOGGED_USER])
+  },
+  watch: {
+    sidebarVisible () {
+      if (!this.sidebarVisible) {
+        this.editingTalk = null
+      }
+    },
+
+    editingTalk () {
+      if (this.editingTalk) {
+        this.sidebarVisible = true
+      }
+    }
   }
 }
 </script>

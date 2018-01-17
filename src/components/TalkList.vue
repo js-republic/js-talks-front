@@ -17,14 +17,14 @@
       <md-table-cell>{{talk.title}}</md-table-cell>
       <md-table-cell>{{talk.author}}</md-table-cell>
       <md-table-cell>{{talk.likes}}</md-table-cell>
-      <md-table-cell>{{talk.type}}</md-table-cell>
-      <md-table-cell>{{talk.speaker}}</md-table-cell>
+      <md-table-cell>{{talk.proposal ? 'Proposition' : 'Demande'}}</md-table-cell>
+      <md-table-cell>{{getUserById(talk.speakerId)}}</md-table-cell>
       <md-table-cell>{{talk.description}}</md-table-cell>
       <md-table-cell>{{talk.duration}}</md-table-cell>
       <md-table-cell>{{formatDate(talk.scheduledAt)}}</md-table-cell>
-      <md-table-cell>{{talk.supportAndVideo}}</md-table-cell>
+      <md-table-cell>{{talk.support}}</md-table-cell>
       <md-table-cell>
-        <md-button class="md-icon-button">
+        <md-button class="md-icon-button"  @click="$emit('editTalk', talk)">
           <md-icon>mode_edit</md-icon>
         </md-button>
         <md-button class="md-icon-button" @click="openDeleteDialog(talk)">
@@ -40,14 +40,15 @@
       md-confirm-text="Confirmer"
       md-cancel-text="Annuler"
       @md-cancel="dialogOpen = false"
-      @md-confirm="deleteTalk(currentTalk)">
+      @md-confirm="deleteTalk(currentTalk)"
+    >
     </md-dialog-confirm>
 
   </md-table>
 </template>
 
 <script>
-import { TALKS } from '@/store/types'
+import { TALKS, USERS } from '@/store/types'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -57,7 +58,7 @@ export default {
     currentTalk: null
   }),
   methods: {
-    ...mapActions(['deleteTalk', 'editTalk']),
+    ...mapActions(['deleteTalk']),
 
     openDeleteDialog (talk) {
       if (!talk) return false
@@ -68,10 +69,15 @@ export default {
 
     formatDate (timestamp) {
       return new Date(timestamp).toLocaleString().slice(0, -3)
+    },
+
+    getUserById (id) {
+      const user = this.USERS.find(user => user.id === id)
+      return `${user.firstname} ${user.name}`
     }
   },
   computed: {
-    ...mapGetters([TALKS])
+    ...mapGetters([TALKS, USERS])
   }
 }
 </script>

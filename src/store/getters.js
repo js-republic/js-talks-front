@@ -1,4 +1,4 @@
-import { TALKS, TALK_EVENTS, LOGGED_USER } from './types'
+import { TALKS, TALK_EVENTS, LOGGED_USER, USERS } from './types'
 
 export default {
   [TALKS] (state) {
@@ -16,5 +16,8 @@ export default {
   },
   [LOGGED_USER] (state) {
     return state.loggedUser
+  },
+  [USERS] (state) {
+    return state.users
   }
 }
