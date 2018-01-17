@@ -58,12 +58,14 @@ export default {
   }),
   methods: {
     ...mapActions(['deleteTalk', 'editTalk']),
+
     openDeleteDialog (talk) {
       if (!talk) return false
 
       this.currentTalk = talk
       this.showDialog = true
     },
+
     formatDate (timestamp) {
       return new Date(timestamp).toLocaleString().slice(0, -3)
     }

@@ -1,4 +1,4 @@
-import { ADD_TALK, DELETE_TALK, EDIT_TALK, SET_TALKS } from './types'
+import * as types from './types'
 
 export const state = {
   talks: [
@@ -7,7 +7,7 @@ export const state = {
       title: 'Il jouait du piano debout',
       author: 'France Gall',
       likes: 11,
-      type: 'Talk',
+      proposal: true,
       speaker: 'France Gall',
       description: 'Une brêve description du pourquoi et du comment de cette manière de jouer du piano',
       duration: 60,
@@ -16,25 +16,38 @@ export const state = {
     }
   ],
   loggedUser: {
+    id: '1',
     name: 'Ghafoor',
     firstname: 'Valdo',
     token: '',
     logged: true
-  }
+  },
+  users: [{
+    id: '1',
+    name: 'Ghafoor',
+    firstname: 'Valdo',
+    roleLevel: 1
+  }]
 }
 
 export const mutations = {
-  [ADD_TALK] (state, formData) {
+  [types.ADD_TALK] (state, formData) {
     state.talks.push(formData)
   },
-  [DELETE_TALK] (state, id) {
+  [types.DELETE_TALK] (state, id) {
     state.talks = state.talks.filter(talk => talk.id !== id)
   },
-  [EDIT_TALK] (state, { formData, talkId }) {
+  [types.EDIT_TALK] (state, { formData, talkId }) {
     const talk = state.talks.find(talk => talk.id === talkId)
     Object.assign(talk, formData)
   },
-  [SET_TALKS] (state, talks) {
+  [types.SET_TALKS] (state, talks) {
     state.talks = talks
+  },
+  [types.SET_USER] (state, user) {
+    state.loggedUser = user
+  },
+  [types.UNSET_USER] (state) {
+    state.loggedUser = {}
   }
 }

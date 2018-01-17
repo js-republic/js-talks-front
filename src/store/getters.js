@@ -6,6 +6,7 @@ export default {
   },
   [TALK_EVENTS] (state) {
     const MILLISEC_IN_A_MINUTE = 60 * 1000
+
     return state.talks.map(talk => ({
       id: talk.id,
       title: talk.title,

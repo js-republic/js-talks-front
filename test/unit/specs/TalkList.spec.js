@@ -10,7 +10,7 @@ describe('formatDate', () => {
   })
 
   it('should return formatted date', () => {
-    expect(vm.formatDate(Date.now())).toBe(new Date().toLocaleDateString())
+    expect(vm.formatDate(Date.now())).toBe(new Date().toLocaleString().slice(0, -3))
   })
 })
 

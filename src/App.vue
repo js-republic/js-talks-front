@@ -2,11 +2,11 @@
   <div id="app">
     <md-app v-if="LOGGED_USER.logged">
       <md-app-toolbar md-elevation="3">
-        <top-header @toggleSidebar="sidebarVisible = !sidebarVisible"></top-header>
+        <top-header @sidebarEvent="sidebarVisible = $event"></top-header>
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
-          <sidebar :sidebarVisible="sidebarVisible" @sidebarVisible="sidebarVisible = $event"></sidebar>
+          <sidebar :sidebarVisible="sidebarVisible" @sidebarEvent="sidebarVisible = $event"></sidebar>
           <router-view></router-view>
         </main>
       </md-app-content>
