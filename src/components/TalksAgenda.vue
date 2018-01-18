@@ -8,8 +8,8 @@
 /* eslint-disable no-unused-vars */
 import fullCalendar from 'fullcalendar'
 import { mapGetters } from 'vuex'
-import { TALK_EVENTS } from '@/store/types'
 import $ from 'jquery'
+import { TALK_EVENTS } from '@/store/types'
 
 export default {
   name: 'talks-agenda',

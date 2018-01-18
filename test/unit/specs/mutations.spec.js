@@ -42,11 +42,12 @@ describe('EDIT_TALK', () => {
     }
   })
 
-  it('should edit the talk in the list', () => {
+  it('should edit the talk', () => {
     mutations[ADD_TALK](state, {
       id: '99',
       title: 'Testing is the way'
     })
+
     mutations[EDIT_TALK](state, {
       talkId: '99',
       formData: { id: '99', title: 'Testing is evil' }

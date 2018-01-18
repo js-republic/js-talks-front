@@ -1,12 +1,13 @@
 import * as types from './types'
+import { SERVER_URL } from '@/constants'
 import axios from 'axios'
 
 export default {
-  async addTalk ({ commit, state }, formData) {
+  async addTalk ({ commit, state }, { formData }) {
     try {
       formData.author = state.loggedUser.firstname
       formData.likes = 0
-      await axios.put('url_to_server', formData)
+      // await axios.put(SERVER_URL, formData)
       commit(types.ADD_TALK, formData)
     } catch (error) {
       console.log(error)
@@ -14,7 +15,7 @@ export default {
   },
   async login ({ commit }, credentials) {
     try {
-      const response = await axios.post('url_to_server', credentials)
+      const response = await axios.post(SERVER_URL, credentials)
       commit(types.SET_USER, response)
     } catch (error) {
       console.log(error)
@@ -22,7 +23,7 @@ export default {
   },
   async getTalks ({ commit }) {
     try {
-      await axios.get('url_to_server')
+      // await axios.get(SERVER_URL)
       commit(types.SET_TALKS)
     } catch (error) {
       console.log(error)
@@ -30,21 +31,22 @@ export default {
   },
   async editTalk ({ commit }, { formData, talkId }) {
     try {
-      await axios.patch(`url_to_server/${talkId}`)
+      // await axios.patch(`${SERVER_URL}/${talkId}`)
+      commit(types.EDIT_TALK, { formData, talkId })
     } catch (error) {
       console.log(error)
     }
   },
   async feedback ({ commit }, { talkId, isPositive }) {
     try {
-      await axios.post(`url_to_server/${talkId}`, isPositive)
+      await axios.post(`${SERVER_URL}/${talkId}`, isPositive)
     } catch (error) {
       console.log(error)
     }
   },
   async deleteTalk ({ commit }, talk) {
     try {
-      await axios.delete(`url_to_server/${talk.id}`)
+      await axios.delete(`${SERVER_URL}/${talk.id}`)
       commit(types.DELETE_TALK, talk.id)
     } catch (error) {
       console.log(error)

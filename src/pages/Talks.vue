@@ -1,5 +1,5 @@
 <template>
-  <talk-list />
+  <talk-list @editTalk="$emit('editTalk', $event)"></talk-list>
 </template>
 
 
