@@ -71,7 +71,7 @@
     </div>
     <md-field v-else>
       <label>Speaker</label>
-      <md-select v-model="form.speaker">
+      <md-select v-model="form.speakerId">
         <md-option :key="user.id" v-for="user in USERS" value="user.id">{{`${user.firstname} ${user.name}`}}</md-option>
       </md-select>
     </md-field>
@@ -98,7 +98,7 @@ export default {
       description: '',
       scheduledAt: null,
       support: '',
-      speaker: '',
+      speakerId: '',
       duration: '',
       datetime: {
         date: null,
@@ -129,9 +129,14 @@ export default {
 
       this.closeSidebar()
 
-      date.setHours(parseInt(this.form.datetime.hours))
-      date.setMinutes(parseInt(this.form.datetime.minutes))
+      if (date) {
+        date.setHours(parseInt(this.form.datetime.hours))
+        date.setMinutes(parseInt(this.form.datetime.minutes))
+      }
+
       this.form.scheduledAt = date ? date.getTime() : null
+
+      delete this.form.datetime
 
       if (this.editingTalk) {
         this.$store.dispatch('editTalk', {

@@ -10,7 +10,7 @@ Vue.use(Vuex)
 const Constructor = Vue.extend(TalkForm)
 let vm, store
 
-describe('addTalk', () => {
+describe('handleSubmit', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       mutations,
@@ -25,10 +25,26 @@ describe('addTalk', () => {
 
   it('should add the talk to the store', () => {
     vm.form.title = 'Testing is your way'
-    vm.addTalk()
+    vm.handleSubmit()
 
     const addedTalk = vm.$store.state.talks.find(talk => talk.title === 'Testing is your way')
     expect(addedTalk).not.toBe(undefined)
+  })
+
+  it('should edit the talk', () => {
+    vm.editingTalk = {
+      title: 'Testing is your way',
+      id: '1',
+      description: 'I like testing',
+      duration: 120
+    }
+
+    vm.form.title = 'Testing is evil'
+    vm.handleSubmit()
+
+    const editedTalk = vm.$store.state.talks.find(talk => talk.id === vm.editingTalk.id)
+    expect(editedTalk).not.toBe(undefined)
+    expect(editedTalk.title).toBe('Testing is evil')
   })
 })
 
