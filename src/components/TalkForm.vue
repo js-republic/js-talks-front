@@ -1,7 +1,9 @@
 <template>
   <form novalidate @submit.prevent="handleSubmit">
-    <md-radio v-model="form.proposal" :value="true">Proposition</md-radio>
-    <md-radio v-model="form.proposal" :value="false">Demande</md-radio>
+    <div v-if="!editingTalk || !editingTalk.proposal">
+      <md-radio v-model="form.proposal" :value="true">Proposition</md-radio>
+      <md-radio v-model="form.proposal" :value="false">Demande</md-radio>
+    </div>
 
     <md-field :class="{ 'md-invalid': isInputInvalid('title') }">
       <label>Titre</label>
@@ -196,6 +198,7 @@ export default {
   watch: {
     sidebarVisible () {
       this.resetErrors()
+      this.resetForm()
     },
     editingTalk () {
       const date = new Date(this.editingTalk.scheduledAt)
