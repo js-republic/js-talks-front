@@ -1,50 +1,51 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { mutations, state } from '@/store/mutations'
-import actions from '@/store/actions'
-import getters from '@/store/getters'
+import store from '@/store'
 import TalkForm from '@/components/TalkForm'
 
 Vue.use(Vuex)
 
 const Constructor = Vue.extend(TalkForm)
-let vm, store
+let vm
 
 describe('handleSubmit', () => {
   beforeEach(() => {
-    store = new Vuex.Store({
-      mutations,
-      state,
-      actions,
-      getters,
-      strict: true
-    })
     vm = new Constructor({ store })
     vm.resetForm()
   })
 
   it('should add the talk to the store', () => {
     vm.form.title = 'Testing is your way'
+    vm.form.id = '1'
     vm.handleSubmit()
 
-    const addedTalk = vm.$store.state.talks.find(talk => talk.title === 'Testing is your way')
-    expect(addedTalk).not.toBe(undefined)
+    Vue.nextTick().then(() => {
+      const addedTalk = vm.$store.state.talks.find(talk => talk.id === '1')
+      expect(addedTalk).not.toBe(undefined)
+    })
   })
 
   it('should edit the talk', () => {
-    vm.editingTalk = {
-      title: 'Testing is your way',
-      id: '1',
-      description: 'I like testing',
-      duration: 120
-    }
-
-    vm.form.title = 'Testing is evil'
+    vm.form.title = 'Testing is yout way'
     vm.handleSubmit()
 
-    const editedTalk = vm.$store.state.talks.find(talk => talk.id === vm.editingTalk.id)
-    expect(editedTalk).not.toBe(undefined)
-    expect(editedTalk.title).toBe('Testing is evil')
+    Vue.nextTick().then(() => {
+      vm.editingTalk = {
+        title: 'Testing is your way',
+        id: '1',
+        description: 'I like testing',
+        duration: 120
+      }
+
+      vm.form.title = 'Testing is evil'
+      vm.handleSubmit()
+
+      Vue.nextTick().then(() => {
+        const editedTalk = vm.$store.state.talks.find(talk => talk.id === vm.editingTalk.id)
+        expect(editedTalk).not.toBe(undefined)
+        expect(editedTalk.title).toBe('Testing is evil')
+      })
+    })
   })
 })
 

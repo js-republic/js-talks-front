@@ -15,13 +15,7 @@ export const state = {
       support: 'Ecran tv'
     }
   ],
-  loggedUser: {
-    id: '1',
-    name: 'Ghafoor',
-    firstname: 'Valdo',
-    token: '',
-    logged: true
-  },
+  loggedUser: {},
   users: [{
     id: '1',
     name: 'Ghafoor',
@@ -32,13 +26,14 @@ export const state = {
 
 export const mutations = {
   [types.ADD_TALK] (state, formData) {
-    state.talks.push(formData)
+    state.talks.push({...formData})
+    state.talks.splice()
   },
   [types.DELETE_TALK] (state, id) {
     state.talks = state.talks.filter(talk => talk.id !== id)
   },
   [types.EDIT_TALK] (state, { formData, talkId }) {
-    const talk = state.talks.find(talk => talk.id === talkId)
+    let talk = state.talks.find(talk => talk.id === talkId)
     Object.assign(talk, formData)
   },
   [types.SET_TALKS] (state, talks) {
