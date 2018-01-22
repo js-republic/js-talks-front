@@ -93,11 +93,13 @@ export default {
   props: ['sidebarVisible', 'editingTalk'],
   data: () => ({
     initialForm: {
+      id: '',
       proposal: true,
       title: '',
       description: '',
       scheduledAt: null,
       support: '',
+      author: '',
       speakerId: '',
       duration: '',
       datetime: {
