@@ -13,10 +13,21 @@ export default {
       console.log(error)
     }
   },
-  async login ({ commit }, credentials) {
+  async login ({ commit }, googleUser) {
     try {
-      const response = await axios.post(SERVER_URL, credentials)
-      commit(types.SET_USER, response)
+      const profile = googleUser.getBasicProfile()
+
+      const user = {
+        fullname: profile.getName(),
+        firstname: profile.getGivenName(),
+        name: profile.getFamilyName(),
+        email: profile.getEmail(),
+        token: googleUser.getAuthResponse().id_token
+      }
+
+      const response = await axios.post(`${SERVER_URL}/login`, user)
+      debugger
+      commit(types.SET_USER, user)
     } catch (error) {
       console.log(error)
     }
