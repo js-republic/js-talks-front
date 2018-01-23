@@ -4,18 +4,23 @@
 
 
 <script>
-import { mapActions } from 'vuex'
+import { LOGGED_USER } from '@/store/types'
 
 export default {
   name: 'login',
   methods: {
-    ...mapActions(['login'])
+    async login (googleUser) {
+      await this.$store.dispatch('login', googleUser)
+      this.$router.push({ path: '/' })
+    }
   },
   mounted () {
-    gapi.signin2.render('google-signin', {
-      onsuccess: this.login,
-      onfailure: this.login
-    })
+    if (!this.$store.getters[LOGGED_USER].logged) {
+      gapi.signin2.render('google-signin', {
+        onsuccess: this.login,
+        onfailure: this.login
+      })
+    }
   }
 }
 </script>

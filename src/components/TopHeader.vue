@@ -3,7 +3,7 @@
     <span class="md-title">
       <router-link class="links" to="/">JS-Talks</router-link>
     </span>
-    <div class="menus-container">
+    <div class="menus-container" v-if="LOGGED_USER.logged">
       <md-button class="md-dense">
         <md-icon>keyboard_arrow_right</md-icon>
         <span>{{LOGGED_USER.firstname}}</span>

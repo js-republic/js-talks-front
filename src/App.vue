@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <md-app>
-      <md-app-toolbar md-elevation="3" v-if="LOGGED_USER.logged">
+      <md-app-toolbar md-elevation="3">
         <top-header></top-header>
       </md-app-toolbar>
       <md-app-content>
@@ -11,13 +11,13 @@
             :editingTalk="editingTalk"
             @editTalk="editingTalk = $event"
             @sidebarEvent="sidebarVisible = $event"
-            v-if="LOGGED_USER.logged"
+            v-if="LOGGED_USER && LOGGED_USER.logged"
           ></sidebar>
 
           <router-view @editTalk="editingTalk = $event"></router-view>
 
           <md-button
-            v-if="LOGGED_USER.logged"
+            v-if="LOGGED_USER && LOGGED_USER.logged"
             class="md-fab md-plain"
             @click="sidebarVisible = true"
           >
@@ -76,9 +76,7 @@ export default {
   body,
   #app,
   .md-app,
-  .md-app-container,
-  .md-app-content,
-  .main-content {
+  .md-app-container {
     height: 100%;
     overflow: hidden;
   }
@@ -108,7 +106,6 @@ export default {
     .main-content {
       padding: 2rem;
       display: flex;
-      align-items: center;
       justify-content: center;
     }
 
