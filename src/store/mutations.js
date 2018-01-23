@@ -63,31 +63,38 @@ export const mutations = {
     state.talks.push({...formData})
     state.talks.splice()
   },
+
   [types.DELETE_TALK] (state, id) {
     state.talks = state.talks.filter(talk => talk.id !== id)
   },
+
   [types.EDIT_TALK] (state, { formData, talkId }) {
     const talk = state.talks.find(talk => talk.id === talkId)
     Object.assign(talk, formData)
   },
+
   [types.GET_LAST] (state) {
     const sessionJSON = localStorage.getItem('loggedUser')
     if (sessionJSON) {
       state.loggedUser = JSON.parse(sessionJSON)
     }
   },
+
   [types.FEEDBACK] (state, { talkId, isPositive }) {
     const talk = state.talks.find(talk => talk.id === talkId)
     isPositive
-    ? talk.likes++
-    : talk.likes--
+      ? talk.likes++
+      : talk.likes--
   },
+
   [types.SET_TALKS] (state, talks) {
     state.talks = talks
   },
+
   [types.SET_USER] (state, user) {
     state.loggedUser = user || {}
   },
+
   [types.UNSET_USER] (state) {
     state.loggedUser = {}
   }
