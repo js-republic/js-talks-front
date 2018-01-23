@@ -7,7 +7,8 @@ module.exports = {
     sourceType: 'module'
   },
   globals: {
-    $: true
+    $: true,
+    gapi: true
   },
   env: {
     browser: true,

@@ -1,13 +1,9 @@
 <template>
   <div class="main-toolbar">
-    <md-button class="md-icon-button" @click="$emit('sidebarEvent', true)">
-      <md-icon>add</md-icon>
-    </md-button>
     <span class="md-title">
       <router-link class="links" to="/">JS-Talks</router-link>
     </span>
-
-    <div class="menus-container">
+    <div class="menus-container" v-if="LOGGED_USER.logged">
       <md-button class="md-dense">
         <md-icon>keyboard_arrow_right</md-icon>
         <span>{{LOGGED_USER.firstname}}</span>
@@ -36,7 +32,6 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-
       .menus-container {
         display: flex;
         align-items: center;

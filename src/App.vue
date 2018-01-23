@@ -1,18 +1,28 @@
 <template>
   <div id="app">
-    <md-app v-if="LOGGED_USER.logged">
+    <md-app>
       <md-app-toolbar md-elevation="3">
-        <top-header @sidebarEvent="sidebarVisible = $event"></top-header>
+        <top-header></top-header>
       </md-app-toolbar>
       <md-app-content>
         <main class="main-content">
           <sidebar
             :sidebarVisible="sidebarVisible"
             :editingTalk="editingTalk"
-            @sidebarEvent="sidebarVisible = $event"
             @editTalk="editingTalk = $event"
+            @sidebarEvent="sidebarVisible = $event"
+            v-if="LOGGED_USER && LOGGED_USER.logged"
           ></sidebar>
+
           <router-view @editTalk="editingTalk = $event"></router-view>
+
+          <md-button
+            v-if="LOGGED_USER && LOGGED_USER.logged"
+            class="md-fab md-plain"
+            @click="sidebarVisible = true"
+          >
+            <md-icon>add</md-icon>
+          </md-button>
         </main>
       </md-app-content>
     </md-app>
@@ -74,16 +84,31 @@ export default {
   #app {
     display: flex;
     flex-flow: column;
+
     > * {
       height: 100%;
+    }
+
+    .md-fab {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
     }
 
     .md-app-scroller {
       overflow: auto;
     }
+
+    .md-app-content {
+      padding: 0;
+    }
+
     .main-content {
       padding: 2rem;
+      display: flex;
+      justify-content: center;
     }
+
     a.links:hover {
       text-decoration: none;
     }
