@@ -63,6 +63,10 @@ export default {
       }
     }
 
+    .fc-view {
+      z-index: 0;
+    }
+
     td.fc-today {
       background: #E1F5FE;
       border: none !important;

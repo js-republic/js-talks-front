@@ -1,8 +1,8 @@
 <template>
   <form novalidate @submit.prevent="handleSubmit">
-    <div v-if="!editingTalk || !editingTalk.proposal">
-      <md-radio v-model="form.proposal" :value="true">Proposition</md-radio>
-      <md-radio v-model="form.proposal" :value="false">Demande</md-radio>
+    <div v-if="!editingTalk || editingTalk.type !== 'proposal'">
+      <md-radio v-model="form.type" value="proposal">Proposition</md-radio>
+      <md-radio v-model="form.type" value="request">Demande</md-radio>
     </div>
 
     <md-field :class="{ 'md-invalid': isInputInvalid('title') }">
@@ -31,7 +31,7 @@
       <span class="md-error">Une description est requise</span>
     </md-field>
 
-    <div v-if="form.proposal">
+    <div v-if="form.type !== 'request'">
       <md-field :class="{ 'md-invalid': isInputInvalid('duration') }">
         <label>Durée (min)</label>
         <md-input
@@ -72,7 +72,7 @@
     <md-field v-else>
       <label>Speaker</label>
       <md-select v-model="form.speakerId">
-        <md-option :key="user.id" v-for="user in USERS" value="user.id">{{`${user.firstname} ${user.name}`}}</md-option>
+        <md-option :key="user.id" v-for="user in USERS" :value="user.id">{{user.fullname}}</md-option>
       </md-select>
     </md-field>
 
@@ -94,7 +94,7 @@ export default {
   data: () => ({
     initialForm: {
       id: '',
-      proposal: true,
+      type: 'proposal',
       title: '',
       description: '',
       scheduledAt: null,
@@ -115,7 +115,6 @@ export default {
     },
     form: {},
     errors: {},
-    USERS: [],
     HOURS_LIST: [],
     MINUTES_LIST: []
   }),
@@ -200,7 +199,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters[USERS]
+    ...mapGetters([USERS])
   },
   watch: {
     sidebarVisible () {
