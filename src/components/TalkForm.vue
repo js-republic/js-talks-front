@@ -1,6 +1,6 @@
 <template>
   <form novalidate @submit.prevent="handleSubmit">
-    <div v-if="!editingTalk || editingTalk.type !== 'proposal'">
+    <div v-if="!editingTalk || editingTalk.type !== 'event'">
       <md-radio v-model="form.type" value="proposal">Proposition</md-radio>
       <md-radio v-model="form.type" value="request">Demande</md-radio>
     </div>
@@ -69,7 +69,8 @@
         ></md-textarea>
       </md-field>
     </div>
-    <md-field v-else>
+
+    <md-field v-if="form.type === 'request' || form.type === 'event'">
       <label>Speaker</label>
       <md-select v-model="form.speakerId">
         <md-option :key="user.id" v-for="user in USERS" :value="user.id">{{user.fullname}}</md-option>
@@ -166,7 +167,7 @@ export default {
     },
 
     closeSidebar () {
-      this.$emit('sidebar', false)
+      this.$emit('sidebarEvent', false)
     },
 
     updateFieldStatus (field) {
